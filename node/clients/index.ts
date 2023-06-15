@@ -1,10 +1,15 @@
 import { IOClients } from '@vtex/api'
 
-import Jsonplaceholder from './jsonplaceholder'
+import Catalog from './catalog'
+import Logistics from './logistics'
 
 // Extend the default IOClients implementation with our own custom clients.
 export class Clients extends IOClients {
-  public get jsonplaceholder() {
-    return this.getOrSet('jsonplaceholder', Jsonplaceholder)
+  public get catalog() {
+    return this.getOrSet('catalog', Catalog)
+  }
+
+  public get logistics() {
+    return this.getOrSet('logistics', Logistics)
   }
 }

@@ -1,9 +1,9 @@
-import type { ClientsConfig, ServiceContext, RecorderState } from '@vtex/api'
+import type { ClientsConfig, ServiceContext } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
-import { postsMiddleware, postByIdMiddleware, usersMiddleware } from './middlewares/jsonplaceholder'
-import { validate } from './middlewares/validate'
+import { updateInventory as updateInventoryMiddleware } from './middlewares/updateInventory'
+// import { validate } from './middlewares/validate'
 
 const TIMEOUT_MS = 800
 
@@ -11,11 +11,11 @@ const TIMEOUT_MS = 800
 // The @vtex/api HttpClient respects Cache-Control headers and uses the provided cache.
 const memoryCache = new LRUCache<string, any>({ max: 5000 })
 
-metrics.trackCache('jsonplaceholder', memoryCache)
+metrics.trackCache('updateInventory', memoryCache)
 
 // This is the configuration for clients available in `ctx.clients`.
 const clients: ClientsConfig<Clients> = {
-  // We pass our custom implementation of the clients bag, containing the Jsonplaceholder client.
+  // We pass our custom implementation of the clients bag.
   implementation: Clients,
   options: {
     // All IO Clients will be initialized with these options, unless otherwise specified.
@@ -23,36 +23,24 @@ const clients: ClientsConfig<Clients> = {
       retries: 2,
       timeout: TIMEOUT_MS,
     },
-    // This key will be merged with the default options and add this cache to our Jsonplaceholder client.
-    jsonplaceholder: {
+    // This key will be merged with the default options and add this cache to our client.
+    updateInventory: {
       memoryCache,
     }
   },
 }
 
 declare global {
-  // We declare a global Context type just to avoid re-writing ServiceContext<Clients, State> in every handler and resolver
-  type Context = ServiceContext<Clients, State>
-
-  // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
-  interface State extends RecorderState {
-    id: string
-  }
+  // We declare a global Context type just to avoid re-writing ServiceContext<Clients> in every handler and resolver
+  type Context = ServiceContext<Clients>
 }
 
 // Export a service that defines route handlers and client options.
 export default new Service({
   clients,
   routes: {
-    // `openweather` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    posts: method({
-      GET: [validate, postsMiddleware],
-    }),
-    postById: method({
-      GET: [validate, postByIdMiddleware],
-    }),
-    users: method({
-      GET: [validate, usersMiddleware],
-    }),
+    updateInventory: method({
+      PUT: [/* validate, */updateInventoryMiddleware],
+    })
   },
 })

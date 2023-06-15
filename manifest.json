@@ -1,6 +1,6 @@
 {
-  "name": "api-example",
-  "vendor": "{{account}}",
+  "name": "api-wrapper-example",
+  "vendor": "bshgermany",
   "version": "0.0.1",
   "title": "API Example",
   "description": "Example of new REST APIs built on top of VTEX IO.",
@@ -19,9 +19,19 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "jsonplaceholder.typicode.com",
-        "path": "*"
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/*"
       }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "{{account}}.vtexcommercestable.com.br",
+        "path": "/api/*"
+      }
+    },
+    {
+      "name": "LogisticsAdmin"
     },
     {
       "name": "colossus-fire-event"

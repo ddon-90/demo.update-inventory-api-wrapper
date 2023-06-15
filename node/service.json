@@ -6,16 +6,8 @@
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "posts": {
-      "path": "/v1/posts",
-      "public": true
-    },
-    "postById": {
-      "path": "/v1/posts/:id",
-      "public": true
-    },
-    "users": {
-      "path": "/v1/users",
+    "updateInventory": {
+      "path": "/v1/inventory/skus/:refId/warehouses/:warehouseId",
       "public": true
     }
   }
