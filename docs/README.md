@@ -7,18 +7,10 @@ Example of new REST APIs built on top of VTEX IO.
 Exposed routes:
 ```
 "routes": {
-    "posts": {
-      "path": "/v1/posts",
-      "public": true
-    },
-    "postById": {
-      "path": "/v1/posts/:id",
-      "public": true
-    },
-    "users": {
-      "path": "/v1/users",
-      "public": true
-    }
+  "updateInventory": {
+    "path": "/v1/inventory/skus/:refId/warehouses/:warehouseId",
+    "public": true
+  }
 }
 ```
 
@@ -46,7 +38,7 @@ vtex use {{workspace}}
 
 ```
 {
-  "name": "api-example",
+  "name": "api-wrapper-example",
   "vendor": "{{account}}",
   "version": "0.0.1",
   "title": "API Example",
@@ -66,12 +58,13 @@ vtex link
 6. After the linking, open Postman and make some API calls
 
 ```
-GET
-https://{{workspace}}--{{account}}.myvtex.com/v1/posts
+PUT
+https://{{workspace}}--{{account}}.myvtex.com/v1/inventory/skus/:refId/warehouses/:warehouseId
 
-GET
-https://{{workspace}}--{{account}}.myvtex.com/v1/posts/1
-
-GET
-https://{{workspace}}--{{account}}.myvtex.com/v1/users
+Request Body:
+{
+  "unlimitedQuantity": false,
+  "dateUtcOnBalanceSystem": "null",
+  "quantity": 106
+}
 ```

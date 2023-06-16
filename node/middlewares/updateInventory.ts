@@ -1,5 +1,5 @@
 import { json } from 'co-body'
-import { RequestPayload } from '../clients/logistics'
+import { RequestPayload } from '../types'
 
 export async function updateInventory(ctx: Context, next: () => Promise<void>) {
 
@@ -10,8 +10,6 @@ export async function updateInventory(ctx: Context, next: () => Promise<void>) {
 
   const { refId, warehouseId } = params
   const payload: RequestPayload = await json(ctx.req)
-
-  console.log(payload)
 
   try {
     // Get SKU ID from Reference ID
@@ -25,7 +23,7 @@ export async function updateInventory(ctx: Context, next: () => Promise<void>) {
   }
   catch (e) {
     ctx.status = 500
-    ctx.body = { status: "ERRROR", message: e.message }
+    ctx.body = { status: "ERROR", message: e.message }
   }
 
   await next()

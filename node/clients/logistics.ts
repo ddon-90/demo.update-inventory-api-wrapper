@@ -1,11 +1,6 @@
 import type { InstanceOptions, IOContext } from '@vtex/api'
 import { JanusClient } from '@vtex/api'
-
-export type RequestPayload = {
-  hasUnlimitedQuantity: boolean
-  dateUtcOnBalanceSystem: string,
-  quantity: number,
-}
+import { RequestPayload } from '../types'
 
 export default class Logistics extends JanusClient {
   constructor(context: IOContext, options?: InstanceOptions) {

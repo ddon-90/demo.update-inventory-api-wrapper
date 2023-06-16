@@ -3,7 +3,6 @@ import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
 import { updateInventory as updateInventoryMiddleware } from './middlewares/updateInventory'
-// import { validate } from './middlewares/validate'
 
 const TIMEOUT_MS = 800
 
@@ -40,7 +39,7 @@ export default new Service({
   clients,
   routes: {
     updateInventory: method({
-      PUT: [/* validate, */updateInventoryMiddleware],
+      PUT: [updateInventoryMiddleware],
     })
   },
 })
