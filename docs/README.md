@@ -14,6 +14,8 @@ Exposed routes:
 }
 ```
 
+_Note: The behaviour of this API is the same as the [Update inventory by SKU and warehouse API](https://developers.vtex.com/docs/api-reference/logistics-api#put-/api/logistics/pvt/inventory/skus/-skuId-/warehouses/-warehouseId-) with the only difference that you need to use the SKU Reference ID instead of the SKU ID_
+
 ## Proof points:
 - External API calls
 - Build new REST APIs
