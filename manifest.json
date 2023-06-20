@@ -1,6 +1,6 @@
 {
   "name": "api-wrapper-example",
-  "vendor": "bshgermany",
+  "vendor": "{{account}}",
   "version": "0.0.1",
   "title": "API Example",
   "description": "Example of new REST APIs built on top of VTEX IO.",
