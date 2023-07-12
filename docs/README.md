@@ -1,5 +1,5 @@
 ## Name:
-API Example
+API Extension Example
 
 ## Description:
 Example of new REST APIs built on top of VTEX IO.
