@@ -17,10 +17,11 @@ export async function auth(ctx: Context, next: () => Promise<void>) {
 
       if (token) {
         autheticated = true
+        ctx.vtex.adminUserAuthToken = token
       }
     }
     catch {
-      //Ignore error to send 401 response at the end
+      // Ignore
     }
   }
 

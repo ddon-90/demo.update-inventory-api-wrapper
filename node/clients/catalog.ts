@@ -9,7 +9,7 @@ export default class Catalog extends JanusClient {
         ...(options ?? {}),
         headers: {
           ...(options?.headers ?? {}),
-          'VtexIdClientAutCookie': context.authToken,
+          'VtexIdClientAutCookie': context.adminUserAuthToken || '',
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json',
           'X-Vtex-Use-Https': 'true',
