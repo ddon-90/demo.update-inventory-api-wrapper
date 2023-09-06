@@ -1,5 +1,5 @@
 export interface RequestPayload {
-  hasUnlimitedQuantity: boolean
+  unlimitedQuantity: boolean
   dateUtcOnBalanceSystem: string,
   quantity: number,
 }

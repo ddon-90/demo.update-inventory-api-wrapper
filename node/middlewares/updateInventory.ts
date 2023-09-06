@@ -1,29 +1,26 @@
-import { json } from 'co-body'
 import { RequestPayload } from '../types'
 
 export async function updateInventory(ctx: Context, next: () => Promise<void>) {
 
   const {
     vtex: { route: { params } },
-    clients: { catalog, logistics }
+    clients: { logistics }
   } = ctx
 
-  const { refId, warehouseId } = params
-  const payload: RequestPayload = await json(ctx.req)
+  const { warehouseId } = params
+  const payload: RequestPayload = ctx.state.payload
+  const skuId = ctx.state.skuId
 
   try {
-    // Get SKU ID from Reference ID
-    const skuId = await catalog.getSkuIdByReferenceId(String(refId));
-    
     // Update the SKU inventory
     await logistics.updateInventoryBySkuAndWarehouse(skuId, String(warehouseId), payload)
 
     ctx.status = 200
-    ctx.body = { status: "SUCCESS", message: "SKU inventory has been updated" }
+    ctx.body = { name: "SUCCESS", message: `Inventory for SKU ${skuId} has been updated.` }
   }
   catch (e) {
-    ctx.status = 500
-    ctx.body = { status: "ERROR", message: e.message }
+    ctx.status = 404
+    ctx.body = { name: "NOT_FOUND", message: 'No warehouse has been found with the requested Id.' }
   }
 
   await next()

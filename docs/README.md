@@ -8,7 +8,7 @@ Exposed routes:
 ```
 "routes": {
   "updateInventory": {
-    "path": "/v1/inventory/skus/:refId/warehouses/:warehouseId",
+    "path": "/_v/api/inventory/skus/:refId/warehouses/:warehouseId",
     "public": true
   }
 }
@@ -61,7 +61,7 @@ vtex link
 
 ```
 PUT
-https://{{workspace}}--{{account}}.myvtex.com/v1/inventory/skus/:refId/warehouses/:warehouseId
+https://{{workspace}}--{{account}}.myvtex.com/_v/api/inventory/skus/:refId/warehouses/:warehouseId
 
 Request Body:
 {

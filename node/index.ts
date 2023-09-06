@@ -1,8 +1,11 @@
-import type { ClientsConfig, ServiceContext } from '@vtex/api'
+import type { ClientsConfig, ServiceContext, RecorderState } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
+import { auth } from './middlewares/auth'
+import { validate } from './middlewares/validate'
 import { updateInventory as updateInventoryMiddleware } from './middlewares/updateInventory'
+import { RequestPayload } from './types'
 
 const TIMEOUT_MS = 800
 
@@ -31,7 +34,12 @@ const clients: ClientsConfig<Clients> = {
 
 declare global {
   // We declare a global Context type just to avoid re-writing ServiceContext<Clients> in every handler and resolver
-  type Context = ServiceContext<Clients>
+  type Context = ServiceContext<Clients, State>
+
+  interface State extends RecorderState {
+    skuId: string
+    payload: RequestPayload
+  }
 }
 
 // Export a service that defines route handlers and client options.
@@ -39,7 +47,7 @@ export default new Service({
   clients,
   routes: {
     updateInventory: method({
-      PUT: [updateInventoryMiddleware],
+      PUT: [auth, validate, updateInventoryMiddleware],
     })
   },
 })
