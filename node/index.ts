@@ -3,9 +3,8 @@ import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
 import { auth } from './middlewares/auth'
-import { validate } from './middlewares/validate'
-import { updateInventory as updateInventoryMiddleware } from './middlewares/updateInventory'
-import { RequestPayload } from './types'
+import { getSkuId } from './middlewares/getSkuId'
+import { updateInventory } from './middlewares/updateInventory'
 
 const TIMEOUT_MS = 800
 
@@ -38,7 +37,6 @@ declare global {
 
   interface State extends RecorderState {
     skuId: string
-    payload: RequestPayload
   }
 }
 
@@ -47,7 +45,7 @@ export default new Service({
   clients,
   routes: {
     updateInventory: method({
-      PUT: [auth, validate, updateInventoryMiddleware],
+      PUT: [auth, getSkuId, updateInventory],
     })
   },
 })
