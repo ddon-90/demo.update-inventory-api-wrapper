@@ -4,32 +4,20 @@ export async function auth(ctx: Context, next: () => Promise<void>) {
     clients: { vtexId }
   } = ctx
 
-  let autheticated = false
+  const appKey = header['x-vtex-api-appkey']
+  const appToken = header['x-vtex-api-apptoken']
 
-  const appKey = header['x-vtex-api-appkey'] as string | undefined
-  const appToken = header['x-vtex-api-apptoken'] as string | undefined
+  try {
+    // If appKey and appToken are not valid, the method throws a 401 error
+    const login = await vtexId.login({ appKey, appToken })
+    const { token } = login
 
-  if (appKey && appToken) {
-    try {
-      // If appKey and appToken are not valid, the method throws a 401 error
-      const login = await vtexId.login({ appKey, appToken })
-      const { token } = login
-
-      if (token) {
-        autheticated = true
-        ctx.vtex.adminUserAuthToken = token
-      }
-    }
-    catch {
-      // Ignore
-    }
+    // Save generated token in the context to be used by VTEX APIs
+    ctx.vtex.adminUserAuthToken = token
+    await next()
   }
-
-  if (!autheticated) {
+  catch (e) {
     ctx.status = 401
     ctx.body = { name: "UNAUTHORIZED", message: 'API AppKey or API AppToken are missing or invalid.' }
-  }
-  else {
-    await next()
   }
 }
