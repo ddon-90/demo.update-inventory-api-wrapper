@@ -8,7 +8,7 @@ export async function updateInventory(ctx: Context, next: () => Promise<void>) {
     clients: { logistics }
   } = ctx
 
-  const { warehouseId } = params
+  const { refId, warehouseId } = params
   const payload: RequestPayload = await json(ctx.req)
   const skuId = ctx.state.skuId
 
@@ -29,7 +29,7 @@ export async function updateInventory(ctx: Context, next: () => Promise<void>) {
       await logistics.updateInventoryBySkuAndWarehouse(skuId, String(warehouseId), payload)
 
       ctx.status = 200
-      ctx.body = { name: "SUCCESS", message: `Inventory for SKU ${skuId} has been updated.` }
+      ctx.body = { name: "SUCCESS", message: `Inventory for SKU with RefId ${refId} has been updated.` }
     }
     catch (e) {
       ctx.status = 404
