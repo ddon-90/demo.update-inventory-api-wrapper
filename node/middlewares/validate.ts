@@ -23,7 +23,7 @@ export async function validate(ctx: Context, next: () => Promise<void>) {
 
   if (!skuId) {
     ctx.status = 404
-    ctx.body = { name: "NOT_FOUND", message: 'No product has been found with the requested RefId.' }
+    ctx.body = { name: "NOT_FOUND", message: `No product with RefId ${refId} has been found or you do not have the necessary permissions for the Catalog module.` }
   }
   
   else if (!payload.hasOwnProperty('quantity') || !(typeof quantity === 'number')) {

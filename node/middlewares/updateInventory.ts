@@ -20,7 +20,7 @@ export async function updateInventory(ctx: Context, next: () => Promise<void>) {
   }
   catch (e) {
     ctx.status = 404
-    ctx.body = { name: "NOT_FOUND", message: 'No warehouse has been found with the requested Id.' }
+    ctx.body = { name: "NOT_FOUND", message: `No warehouse with Id ${warehouseId} has been found or you do not have the necessary permissions for the Logistic module.` }
   }
 
   await next()
